@@ -64,3 +64,33 @@ func TestSealOpen(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestCrachedShortMessage(t *testing.T) {
+	testKeyPair := getTestKeyPair()
+	sealedMsg, err := Seal([]byte("message"), &testKeyPair.publicKey)
+	t.Logf("Encrypted Message for PubKey (%s)\n%s\n", recipientPubKey, hex.EncodeToString(sealedMsg.Box))
+	if checkErr(t, err) {
+		return
+	}
+	_, err = SealOpen([]byte("uncorrect"), &testKeyPair.publicKey, &testKeyPair.secretKey)
+	if err != nil {
+		t.Log("Correct error")
+	} else {
+		t.Error("Decrypted")
+	}
+}
+
+func TestCrachedBigMessage(t *testing.T) {
+	testKeyPair := getTestKeyPair()
+	sealedMsg, err := Seal([]byte("message"), &testKeyPair.publicKey)
+	t.Logf("Encrypted Message for PubKey (%s)\n%s\n", recipientPubKey, hex.EncodeToString(sealedMsg.Box))
+	if checkErr(t, err) {
+		return
+	}
+	_, err = SealOpen([]byte("uncorrectkllkasdlfkjlasdkjfl;djasflkjasdflkjasdl;fkjasldfkjlasdkjf;lasdjfladjf;lkjasdf;lkjasdfl;kjasdflkjasdlkj"), &testKeyPair.publicKey, &testKeyPair.secretKey)
+	if err != nil {
+		t.Log("Correct error")
+	} else {
+		t.Error("Decrypted")
+	}
+}

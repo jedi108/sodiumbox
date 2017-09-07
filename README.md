@@ -7,12 +7,12 @@ Pure go library for interacting with libsodiums crypto_box_seal
 
 ## Install
 
-`go get github.com/mdp/sodiumbox`
+`go get github.com/jedi108/sodiumbox`
 
 ## Test
 
 ```
-cd $GOHOME/src/github.com/mdp/sodiumbox
+cd $GOHOME/src/github.com/jedi108/sodiumbox
 go test -v
 ```
 

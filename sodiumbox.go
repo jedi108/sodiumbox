@@ -71,6 +71,9 @@ func (m *Message) Seal() error {
 // Open - seal the Message
 func (m *Message) Open() error {
 	// ephemeral_pk || box(m, recipient_pk, ephemeral_sk, nonce=blake2b(ephemeral_pk || recipient_pk))
+	if len(m.Box)<32 {
+		return errors.New("Failed len to nonce")
+	}
 	m.EphemeralPK = extractKey(m.Box)
 	nonce, err := boxSealNonce(m.EphemeralPK, m.PublicKey)
 	if err != nil {
